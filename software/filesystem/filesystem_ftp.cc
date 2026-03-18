@@ -148,6 +148,7 @@ FRESULT FileSystemFTP::file_open(const char *filename, uint8_t flags, File **fil
     // Build full FTP path for this file
     mstring ftp_path;
     build_ftp_path(filename, ftp_path);
+    printf("[FTP-FS] ftp_path: '%s'\n", ftp_path.c_str());
 
     // Build a clean filename for /Temp/ cache
     char *fixed = new char[1 + strlen(filename)];

@@ -34,6 +34,7 @@ int UserFileInteraction::fetch_context_items(BrowsableDirEntry *br, IndexedList<
         list.append(new Action("View", UserFileInteraction::S_view, 0));
         count++;
     }
+#ifndef RECOVERYAPP
     if (!(info->attrib & AM_VOL)) {
         list.append(new Action("Copy to...", UserFileInteraction::S_copyTo, 0));
         count++;
@@ -42,6 +43,7 @@ int UserFileInteraction::fetch_context_items(BrowsableDirEntry *br, IndexedList<
             count++;
         }
     }
+#endif
     if (info->is_writable() && !(info->attrib & AM_VOL)) {
         list.append(new Action("Rename", UserFileInteraction::S_rename, 0));
         list.append(new Action("Delete", UserFileInteraction::S_delete, 0));
@@ -268,6 +270,7 @@ SubsysResultCode_e UserFileInteraction::S_runApp(SubsysCommand *cmd)
     return SSRET_OK;
 }
 
+#ifndef RECOVERYAPP
 SubsysResultCode_e UserFileInteraction::S_copyTo(SubsysCommand *cmd)
 {
     char dest_path[64];
@@ -296,7 +299,9 @@ SubsysResultCode_e UserFileInteraction::S_copyTo(SubsysCommand *cmd)
     cmd->user_interface->popup("Copy complete.", BUTTON_OK);
     return SSRET_OK;
 }
+#endif
 
+#ifndef RECOVERYAPP
 SubsysResultCode_e UserFileInteraction::S_moveTo(SubsysCommand *cmd)
 {
     char dest_path[64];
@@ -344,6 +349,7 @@ SubsysResultCode_e UserFileInteraction::S_moveTo(SubsysCommand *cmd)
     cmd->user_interface->popup("Move complete.", BUTTON_OK);
     return SSRET_OK;
 }
+#endif
 
 // TODO: Use these functions in other user-interface based subsystem calls
 FRESULT create_file_ask_if_exists(FileManager *fm, UserInterface *ui, const char *path, const char *filename, File **f)
